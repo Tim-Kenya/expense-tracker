@@ -32,3 +32,29 @@ function addTransaction(e) {
   transactionFormEl.reset();
 }
 
+function updateTransactionList() {
+  transactionListEl.innerHTML = ""
+
+  const sortedTransactions = [...transactions].reverse()
+  
+  sortedTransactions.forEach((transaction) => {
+    const transactionEl = createTransactionElement(transaction)
+    transactionListEl.appendChild(transactionEl)
+  });
+}
+
+
+function createTransactionElement(transaction) {
+  const li = document.createElement("li")
+  li.classList.add("transaction")
+  li.classList.add(transaction.amount < 0 ? "expense" : "income")
+
+  li.innerHTML = `
+    <span>${transaction.description}</span>
+    <span>$${transaction.amount}
+      <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
+    </span>
+  `;
+
+  return li;
+}
